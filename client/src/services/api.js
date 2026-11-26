@@ -1,4 +1,4 @@
-const API_BASE = '/api';
+const API_BASE = `${import.meta.API_BASE}/api`;
 
 export async function apiRequest(path, { method = 'GET', body } = {}) {
   let response;
