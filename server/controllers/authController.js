@@ -4,12 +4,12 @@ import User from '../models/User.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER === 'true';
 const cookieOptions = () => ({
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'none',
-  path: '/',
-  maxAge: 7 * 24 * 60 * 60 * 1000
+  secure: isProduction,
+  sameSite: 'lax',
+  path: '/'
 });
 
 function publicUser(user) {
@@ -21,7 +21,10 @@ function issueCookie(res, user) {
     subject: user._id.toString(),
     expiresIn: '7d'
   });
-  res.cookie('token', token, cookieOptions());
+  res.cookie('token', token, {
+    ...cookieOptions(),
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  });
 }
 
 export const register = asyncHandler(async (req, res) => {
@@ -79,12 +82,7 @@ export const login = asyncHandler(async (req, res) => {
 });
 
 export const logout = (req, res) => {
-  res.clearCookie('token', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/'
-  });
+  res.clearCookie('token', cookieOptions());
   res.json({ message: 'You have been logged out.' });
 };
 

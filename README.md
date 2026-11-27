@@ -90,7 +90,7 @@ Create your account in the registration page, log in, then manage tasks in the d
 | `CLIENT_URL` | Allowed browser origin for credentialed CORS | `http://localhost:5173` |
 | `NODE_ENV` | Enables secure cookie behavior in production | `development` |
 
-The actual `.env` belongs in `server/.env` and is ignored by Git. In production, use HTTPS, set `NODE_ENV=production`, and configure `CLIENT_URL` to the exact frontend origin. The Vercel frontend proxies `/api` requests to the Render API so authentication cookies remain same-origin; do not set `VITE_API_URL` to the Render URL.
+The actual `.env` belongs in `server/.env` and is ignored by Git. In production, use HTTPS, set `NODE_ENV=production`, and configure `CLIENT_URL` to the exact frontend origin. The Vercel frontend proxies `/api` requests to the Render API so authentication cookies remain same-origin; do not set `VITE_API_URL` to the Render URL. Registration creates an account but does not start a session; log in afterward to receive the session cookie. The cookie is `HttpOnly`, so it will not appear in `document.cookie`.
 
 ## REST API
 
