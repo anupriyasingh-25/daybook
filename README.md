@@ -90,7 +90,7 @@ Create your account in the registration page, log in, then manage tasks in the d
 | `CLIENT_URL` | Allowed browser origin for credentialed CORS | `http://localhost:5173` |
 | `NODE_ENV` | Enables secure cookie behavior in production | `development` |
 
-The actual `.env` belongs in `server/.env` and is ignored by Git. In production, use HTTPS, set `NODE_ENV=production`, and configure `CLIENT_URL` to the exact frontend origin.
+The actual `.env` belongs in `server/.env` and is ignored by Git. In production, use HTTPS, set `NODE_ENV=production`, and configure `CLIENT_URL` to the exact frontend origin. The Vercel frontend proxies `/api` requests to the Render API so authentication cookies remain same-origin; do not set `VITE_API_URL` to the Render URL.
 
 ## REST API
 
@@ -125,4 +125,4 @@ Screenshots can be added here after running the application locally.
 
 ## Notes for deployment
 
-Use a strong private `JWT_SECRET`, a restricted MongoDB network allowlist, HTTPS, and an exact `CLIENT_URL`. Cookies are `HttpOnly`, `SameSite=Lax`, and marked `Secure` in production.
+Use a strong private `JWT_SECRET`, a restricted MongoDB network allowlist, HTTPS, and an exact `CLIENT_URL`. The frontend sends API requests through its Vercel origin, and session cookies are `HttpOnly`, `SameSite=Lax`, and marked `Secure` in production.
